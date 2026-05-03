@@ -11,15 +11,15 @@
 <tr border="none">
 <td width="50%" align="left">
   
-- 🌱 Currently exploring and building projects with the **MERN Stack**.  
+- 🌱 I am a passionate **Full Stack Developer** with experience in the **MERN Stack**.
 
-- 🧑‍🎓 Pursuing a **BSc in Computer Science** (Expected Graduation: October 2026).  
+- 🧑‍🎓 Currently pursuing a **BSc in Computer Science** (Expected Graduation: December 2026).
 
-- 🚀 Guiding Principle: *"Code is more than syntax; it’s problem-solving, creativity, and impact."*  
+- 🚀 Guiding Principle: *"Code is more than syntax; it’s problem solving, creativity, and impact."*
 
-- 💡 Belief: *"Continuous learning is the fuel for continuous growth."*  
+- 💡 Belief: *"Continuous learning is the fuel for continuous growth."*
 
-- 📫 How to reach me **senaldushyantha@gmail.com**
+- 📫 Connect with me on [LinkedIn](https://www.linkedin.com/in/senal-abeysekara-67462a2a6/) or email me at [senaldushyantha@gmail.com](mailto:senaldushyantha@gmail.com)
 
 </td>
 <td width="50%" align="center">
@@ -30,35 +30,6 @@
   </td>
 </tr>
 </table>
-
----
-
-<h3 align="center"><img src="https://media.giphy.com/media/iY8CRBdQXODJSCERIr/giphy.gif" width="30px">My Statistics:</h3>
-<p align="center">
-<table align="center">
-<tr border="none">
-<td width="50%" align="center">
-  
-  <img  align="center"  src="https://github-readme-stats.vercel.app/api?username=SenalAbeysekara&theme=dark&show_icons=true&count_private=true" />
-  <br></br>
-  <img  title="🔥 Get streak stats for your profile at git.io/streak-stats" alt="SenalAbeysekara streak" src="https://github-readme-streak-stats.herokuapp.com/?user=SenalAbeysekara&theme=dark&hide_border=false" /> 
-</td>
-<td width="50%" align="center">
-
-  <img  align="center"  src="https://github-readme-stats.anuraghazra1.vercel.app/api/top-langs/?username=SenalAbeysekara&theme=dark&hide_border=false&no-bg=true&no-frame=true&langs_count=10"/>
-  
-  </td>
-</tr>
-</table>
-
----
-
-<h3 align="center">Connect with me:<img src="https://github.com/oHTGo/oHTGo/blob/main/images/handshake.gif" height="40px" , width="80px"></h3>
-<p align="center">
-<a href="https://www.linkedin.com/in/senal-abeysekara-67462a2a6/" target="blank"><img align="center" src="https://github.com/tandpfun/skill-icons/blob/main/icons/LinkedIn.svg" alt="Senal Abeysekara" height="50" width="50" /></a>
-<a href="https://www.facebook.com/share/1CkosGT62L/" target="blank"><img align="center" src="https://raw.githubusercontent.com/rahuldkjain/github-profile-readme-generator/master/src/images/icons/Social/facebook.svg" alt="Senal Abeysekara" height="50" width="50" /></a>
-</a>
-</p>
 
 ---
 
