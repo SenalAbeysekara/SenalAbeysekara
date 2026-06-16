@@ -76,23 +76,21 @@
   <a href="https://tailwindcss.com/" target="_blank" rel="noreferrer"> 
    <img src="https://github.com/Scar1109/skill-icons/blob/Scar1109/icons/TailwindCSS-Light.svg" alt="tailwind" width="50" height="50"/> </a> </p>
 
-<br>
-
----
-
 <h3 align="center">Analytics 📊</h3>
 
 <br>
 
 <table align="center"> 
-	<tr border="none"> 
-		<td width="50%" align="center"> 
-			<img height="180em" src="https://github-readme-stats-eight-theta.vercel.app/api?username=Milinda0130&show_icons=true&theme=algolia&include_all_commits=true&count_private=true"/> <br>
-</br> 
-	<img height="180em" src="https://github-readme-streak-stats.herokuapp.com/?user=Milinda0130&theme=dark&hide_border=true"/> 
-</td> 
-	<td width="50%" align="center"> <img height="180em" src="https://github-readme-stats-eight-theta.vercel.app/api/top-langs/?username=Milinda0130&layout=compact&langs_count=8&theme=algolia"/> </td> 
-</tr> 
+  <tr border="none"> 
+    <td width="50%" align="center"> 
+      <img height="180em" src="https://github-readme-stats-eight-theta.vercel.app/api?username=SenalAbeysekara&show_icons=true&theme=algolia&include_all_commits=true&count_private=true"/> 
+      <br><br>
+      <img height="180em" src="https://github-readme-streak-stats.herokuapp.com/?user=SenalAbeysekara&theme=dark&hide_border=true"/> 
+    </td> 
+    <td width="50%" align="center"> 
+      <img height="180em" src="https://github-readme-stats-eight-theta.vercel.app/api/top-langs/?username=SenalAbeysekara&layout=compact&langs_count=8&theme=algolia"/> 
+    </td> 
+  </tr> 
 </table>
 
 
