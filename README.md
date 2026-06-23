@@ -83,12 +83,12 @@
 <table align="center"> 
   <tr border="none"> 
     <td width="50%" align="center"> 
-      <img height="180em" src="https://github-readme-stats.vercel.app/api?username=SenalAbeysekara&show_icons=true&theme=algolia&include_all_commits=true&count_private=true&show=reviews,prs_merged,prs_merged_percentage"/> 
+      <img height="180em" src="https://github-readme-stats.vercel.app/api?username=SenalAbeysekara&show_icons=true&theme=algolia&count_private=true&show=reviews,prs_merged,prs_merged_percentage"/> 
       <br><br>
       <img height="180em" src="https://streak-stats.demolab.com/?user=SenalAbeysekara&theme=dark&hide_border=true"/> 
     </td> 
     <td width="50%" align="center"> 
-      <img height="180em" src="https://github-readme-stats.vercel.app/api/top-langs/?username=SenalAbeysekara&layout=compact&langs_count=8&theme=algolia&count_private=true"/> 
+      <img height="180em" src="https://github-readme-stats.vercel.app/api/top-langs/?username=SenalAbeysekara&layout=compact&langs_count=8&theme=algolia"/> 
     </td> 
   </tr> 
 </table>
