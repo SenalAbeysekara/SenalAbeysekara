@@ -139,14 +139,48 @@ def print_repo_access_report(repos):
     print(f"Total accessible repos: {len(repos)}")
 
 
+def get_author_filters():
+    """
+    Counts commits using:
+    - GitHub username
+    - Authenticated account login
+    - Emails attached to the GitHub account
+
+    This helps catch commits made with different Git emails.
+    Actual emails are not printed in logs.
+    """
+    filters = []
+
+    def add_filter(value):
+        if value and value not in filters:
+            filters.append(value)
+
+    add_filter(USER)
+
+    current_user = safe_request_json("https://api.github.com/user", context="current user profile")
+    if current_user:
+        add_filter(current_user.get("login"))
+
+    emails = safe_request_json("https://api.github.com/user/emails", context="current user emails")
+    if isinstance(emails, list):
+        for email_item in emails:
+            add_filter(email_item.get("email"))
+
+    print("Author filter check:")
+    print(f"Author filters available: {len(filters)}")
+    print("Using username/login/email filters without printing emails")
+
+    return filters
+
+
 def get_languages(repos):
     totals = {}
 
-    for index, repo in enumerate(repos, start=1):
+    for repo in repos:
         if repo.get("fork"):
             continue
 
-        context = "private repo languages" if repo.get("private") else f"{repo.get('full_name')} languages"
+        context = f"{repo.get('full_name')} languages"
         languages = safe_request_json(repo["languages_url"], context=context)
 
         if not languages:
@@ -165,12 +199,10 @@ def get_search_count(query):
 
 
 def get_total_prs_from_search():
-    # Matches GitHub search: type:pr author:SenalAbeysekara
     return get_search_count(f"type:pr author:{USER}")
 
 
 def get_total_issues_from_search():
-    # Real issues only, not PRs
     return get_search_count(f"type:issue author:{USER}")
 
 
@@ -199,12 +231,13 @@ def get_repo_branches(repo, repo_label):
     return branches
 
 
-def get_total_commits_from_repos(repos):
+def get_total_commits_from_repos(repos, author_filters):
     """
-    Counts actual commits authored by USER across accessible public/private repos.
+    Counts actual commits across accessible public/private repos.
 
     Important:
     - Checks all branches, including dev branches.
+    - Uses username/login/email filters.
     - Deduplicates commits by SHA.
     - Shows private repo names in workflow logs temporarily for debugging.
     """
@@ -213,6 +246,7 @@ def get_total_commits_from_repos(repos):
     total_public_repos_checked = 0
     total_private_repos_checked = 0
     total_branches_checked = 0
+    total_author_queries = 0
 
     for repo in repos:
         full_name = repo.get("full_name")
@@ -243,33 +277,39 @@ def get_total_commits_from_repos(repos):
                 continue
 
             total_branches_checked += 1
-            page = 1
 
-            while True:
-                url = (
-                    f"https://api.github.com/repos/{full_name}/commits"
-                    f"?sha={quote(branch_name, safe='')}"
-                    f"&author={quote(USER, safe='')}"
-                    f"&per_page=100&page={page}"
-                )
+            for author_index, author_filter in enumerate(author_filters, start=1):
+                total_author_queries += 1
+                page = 1
 
-                commits = safe_request_json(
-                    url,
-                    context=f"{repo_label} commits branch {branch_name} page {page}",
-                )
+                while True:
+                    url = (
+                        f"https://api.github.com/repos/{full_name}/commits"
+                        f"?sha={quote(branch_name, safe='')}"
+                        f"&author={quote(author_filter, safe='')}"
+                        f"&per_page=100&page={page}"
+                    )
 
-                if not commits:
-                    break
+                    commits = safe_request_json(
+                        url,
+                        context=(
+                            f"{repo_label} commits branch {branch_name} "
+                            f"author-filter-{author_index} page {page}"
+                        ),
+                    )
 
-                for commit in commits:
-                    sha = commit.get("sha")
-                    if sha:
-                        seen_commits.add(sha)
+                    if not commits:
+                        break
 
-                if len(commits) < 100:
-                    break
+                    for commit in commits:
+                        sha = commit.get("sha")
+                        if sha:
+                            seen_commits.add(sha)
 
-                page += 1
+                    if len(commits) < 100:
+                        break
+
+                    page += 1
 
         repo_commit_count_after = len(seen_commits)
         repo_added_commits = repo_commit_count_after - repo_commit_count_before
@@ -280,9 +320,11 @@ def get_total_commits_from_repos(repos):
     print(f"Public repos checked: {total_public_repos_checked}")
     print(f"Private repos checked: {total_private_repos_checked}")
     print(f"Branches checked: {total_branches_checked}")
+    print(f"Author queries checked: {total_author_queries}")
     print(f"Unique commits found: {len(seen_commits)}")
 
     return len(seen_commits)
+
 
 def get_contributions():
     years_query = """
@@ -358,8 +400,6 @@ def get_contributions():
         collection = data["user"]["contributionsCollection"]
         calendar = collection["contributionCalendar"]
 
-        # These are GitHub profile-style contribution numbers.
-        # Later we override commits, PRs, and issues with broader activity counts.
         totals["commits"] += collection["totalCommitContributions"]
         totals["issues"] += collection["totalIssueContributions"]
         totals["prs"] += collection["totalPullRequestContributions"]
@@ -503,7 +543,6 @@ def build_svg(user, totals, repos, languages, day_counts, streak):
 """
     )
 
-    # Top-left statistics card
     svg.append('<rect x="16" y="20" width="392" height="155" rx="4" fill="#071126" stroke="#c9d1d9"/>')
     svg.append(svg_text(36, 48, "My GitHub Statistics", 15, "#00aaff", "700"))
 
@@ -531,7 +570,6 @@ def build_svg(user, totals, repos, languages, day_counts, streak):
     )
     svg.append(svg_text(325, 113, grade, 22, "#ffffff", "800", "middle"))
 
-    # Bottom-left streak card
     svg.append('<rect x="16" y="242" width="392" height="166" rx="4" fill="#161616"/>')
     svg.append('<line x1="145" y1="264" x2="145" y2="388" stroke="#c9d1d9"/>')
     svg.append('<line x1="278" y1="264" x2="278" y2="388" stroke="#c9d1d9"/>')
@@ -555,7 +593,6 @@ def build_svg(user, totals, repos, languages, day_counts, streak):
 
     svg.append(svg_text(344, 361, longest_label, 8, "#8b949e", "400", "middle"))
 
-    # Right language card
     svg.append('<rect x="468" y="120" width="330" height="180" rx="4" fill="#071126" stroke="#c9d1d9"/>')
     svg.append(svg_text(492, 154, "My Programming Languages", 18, "#00aaff", "700"))
 
@@ -602,10 +639,11 @@ if __name__ == "__main__":
 
     print_repo_access_report(repos)
 
-    # Replace strict GitHub profile contribution counts with broader activity counts.
+    author_filters = get_author_filters()
+
     totals["prs"] = get_total_prs_from_search()
     totals["issues"] = get_total_issues_from_search()
-    totals["commits"] = get_total_commits_from_repos(repos)
+    totals["commits"] = get_total_commits_from_repos(repos, author_filters)
 
     languages = get_languages(repos)
     streak = compute_streak(day_counts)
