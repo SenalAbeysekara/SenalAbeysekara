@@ -22,35 +22,13 @@ jobs:
           token: ${{ secrets.METRICS_TOKEN }}
           user: SenalAbeysekara
           template: classic
-          base: header, activity, community, repositories, metadata
           config_timezone: Asia/Colombo
 
-          # Include more repo activity
-          repositories_forks: yes
-          repositories_affiliations: owner, collaborator, organization_member
+          # Keep only simple accurate data
+          base: header, activity, metadata
 
-          # Contribution dots: ALL YEARS, not just this year
-          plugin_calendar: yes
-          plugin_calendar_limit: 0
-
-          # Programming languages
+          # Languages card
           plugin_languages: yes
           plugin_languages_limit: 8
           plugin_languages_details: percentage
           plugin_languages_sections: most-used
-
-          # Lines changed / repo activity
-          plugin_lines: yes
-          plugin_lines_delay: 30
-
-          # Coding habits
-          plugin_habits: yes
-          plugin_habits_from: 200
-          plugin_habits_days: 14
-
-          # Issues / PR follow-up
-          plugin_followup: yes
-
-          # Achievements
-          plugin_achievements: yes
-          plugin_achievements_threshold: C
