@@ -74,11 +74,11 @@ def request_json(url, method="GET", payload=None):
         raise SystemExit(f"GitHub API error {error.code}: {body}")
 
 
-def safe_request_json(url):
+def safe_request_json(url, context="GitHub API request"):
     try:
         return request_json(url)
     except SystemExit as error:
-        print(f"Skipped API request: {url}")
+        print(f"Skipped: {context}")
         print(error)
         return None
 
@@ -127,14 +127,28 @@ def get_repos():
     return repos
 
 
+def print_repo_access_report(repos):
+    public_repos = [repo for repo in repos if not repo.get("private")]
+    private_repos = [repo for repo in repos if repo.get("private")]
+    fork_repos = [repo for repo in repos if repo.get("fork")]
+
+    print("Repo access check:")
+    print(f"Accessible public repos: {len(public_repos)}")
+    print(f"Accessible private repos: {len(private_repos)}")
+    print(f"Accessible fork repos: {len(fork_repos)}")
+    print(f"Total accessible repos: {len(repos)}")
+
+
 def get_languages(repos):
     totals = {}
 
-    for repo in repos:
+    for index, repo in enumerate(repos, start=1):
         if repo.get("fork"):
             continue
 
-        languages = safe_request_json(repo["languages_url"])
+        context = "private repo languages" if repo.get("private") else f"{repo.get('full_name')} languages"
+        languages = safe_request_json(repo["languages_url"], context=context)
+
         if not languages:
             continue
 
@@ -146,12 +160,12 @@ def get_languages(repos):
 
 def get_search_count(query):
     url = "https://api.github.com/search/issues?q=" + quote(query, safe=":")
-    data = safe_request_json(url)
+    data = safe_request_json(url, context=f"search count for {query}")
     return int(data.get("total_count", 0)) if data else 0
 
 
 def get_total_prs_from_search():
-    # This matches GitHub search like: type:pr author:SenalAbeysekara
+    # Matches GitHub search: type:pr author:SenalAbeysekara
     return get_search_count(f"type:pr author:{USER}")
 
 
@@ -160,7 +174,7 @@ def get_total_issues_from_search():
     return get_search_count(f"type:issue author:{USER}")
 
 
-def get_repo_branches(repo):
+def get_repo_branches(repo, repo_label):
     branches = []
     page = 1
 
@@ -170,7 +184,7 @@ def get_repo_branches(repo):
             f"?per_page=100&page={page}"
         )
 
-        batch = safe_request_json(url)
+        batch = safe_request_json(url, context=f"{repo_label} branches page {page}")
 
         if not batch:
             break
@@ -188,28 +202,47 @@ def get_repo_branches(repo):
 def get_total_commits_from_repos(repos):
     """
     Counts actual commits authored by USER across accessible public/private repos.
-    It checks all branches and deduplicates commits by SHA.
-    This is more accurate than GitHub contribution-only commit count.
+
+    Important:
+    - Checks all branches, including dev branches.
+    - Deduplicates commits by SHA.
+    - Hides private repo names in workflow logs.
     """
     seen_commits = set()
+
+    total_public_repos_checked = 0
+    total_private_repos_checked = 0
+    total_branches_checked = 0
 
     for repo in repos:
         full_name = repo.get("full_name")
         if not full_name:
             continue
 
-        print(f"Checking commits in {full_name}")
+        is_private = repo.get("private", False)
 
-        branches = get_repo_branches(repo)
+        if is_private:
+            total_private_repos_checked += 1
+            repo_label = f"private-repo-{total_private_repos_checked}"
+        else:
+            total_public_repos_checked += 1
+            repo_label = full_name
+
+        branches = get_repo_branches(repo, repo_label)
 
         if not branches and repo.get("default_branch"):
             branches = [{"name": repo["default_branch"]}]
+
+        print(f"Checking {repo_label}: {len(branches)} branches")
+
+        repo_commit_count_before = len(seen_commits)
 
         for branch in branches:
             branch_name = branch.get("name")
             if not branch_name:
                 continue
 
+            total_branches_checked += 1
             page = 1
 
             while True:
@@ -220,7 +253,10 @@ def get_total_commits_from_repos(repos):
                     f"&per_page=100&page={page}"
                 )
 
-                commits = safe_request_json(url)
+                commits = safe_request_json(
+                    url,
+                    context=f"{repo_label} commits branch {branch_name} page {page}",
+                )
 
                 if not commits:
                     break
@@ -234,6 +270,17 @@ def get_total_commits_from_repos(repos):
                     break
 
                 page += 1
+
+        repo_commit_count_after = len(seen_commits)
+        repo_added_commits = repo_commit_count_after - repo_commit_count_before
+
+        print(f"{repo_label} added unique commits: {repo_added_commits}")
+
+    print("Commit scan summary:")
+    print(f"Public repos checked: {total_public_repos_checked}")
+    print(f"Private repos checked: {total_private_repos_checked}")
+    print(f"Branches checked: {total_branches_checked}")
+    print(f"Unique commits found: {len(seen_commits)}")
 
     return len(seen_commits)
 
@@ -312,7 +359,8 @@ def get_contributions():
         collection = data["user"]["contributionsCollection"]
         calendar = collection["contributionCalendar"]
 
-        # Keep these as fallback/profile contribution numbers.
+        # These are GitHub profile-style contribution numbers.
+        # Later we override commits, PRs, and issues with broader activity counts.
         totals["commits"] += collection["totalCommitContributions"]
         totals["issues"] += collection["totalIssueContributions"]
         totals["prs"] += collection["totalPullRequestContributions"]
@@ -553,9 +601,9 @@ if __name__ == "__main__":
     user, totals, day_counts = get_contributions()
     repos = get_repos()
 
-    print(f"Found {len(repos)} accessible repositories")
+    print_repo_access_report(repos)
 
-    # Replace strict GitHub profile contribution counts with actual searchable/activity counts.
+    # Replace strict GitHub profile contribution counts with broader activity counts.
     totals["prs"] = get_total_prs_from_search()
     totals["issues"] = get_total_issues_from_search()
     totals["commits"] = get_total_commits_from_repos(repos)
