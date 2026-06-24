@@ -222,11 +222,11 @@ def get_total_commits_from_repos(repos):
         is_private = repo.get("private", False)
 
         if is_private:
-            total_private_repos_checked += 1
-            repo_label = f"private-repo-{total_private_repos_checked}"
-        else:
-            total_public_repos_checked += 1
-            repo_label = full_name
+    total_private_repos_checked += 1
+    repo_label = full_name
+else:
+    total_public_repos_checked += 1
+    repo_label = full_name
 
         branches = get_repo_branches(repo, repo_label)
 
