@@ -5,10 +5,14 @@ import urllib.request
 import urllib.error
 from datetime import datetime, date, timedelta, timezone
 from html import escape
+from urllib.parse import quote
 
 USER = os.getenv("GITHUB_USERNAME", "SenalAbeysekara")
 TOKEN = os.getenv("GH_TOKEN") or os.getenv("METRICS_TOKEN")
 OUT = "github-analytics.svg"
+
+# Sri Lanka timezone offset
+TIMEZONE_OFFSET = float(os.getenv("UTC_OFFSET", "5.5"))
 
 if not TOKEN:
     raise SystemExit("Missing GH_TOKEN / METRICS_TOKEN secret")
@@ -63,11 +67,20 @@ def request_json(url, method="GET", payload=None):
     req = urllib.request.Request(url, data=data, headers=headers, method=method)
 
     try:
-        with urllib.request.urlopen(req, timeout=30) as response:
+        with urllib.request.urlopen(req, timeout=40) as response:
             return json.loads(response.read().decode("utf-8"))
     except urllib.error.HTTPError as error:
         body = error.read().decode("utf-8", errors="replace")
         raise SystemExit(f"GitHub API error {error.code}: {body}")
+
+
+def safe_request_json(url):
+    try:
+        return request_json(url)
+    except SystemExit as error:
+        print(f"Skipped API request: {url}")
+        print(error)
+        return None
 
 
 def graphql(query, variables):
@@ -121,15 +134,108 @@ def get_languages(repos):
         if repo.get("fork"):
             continue
 
-        try:
-            languages = request_json(repo["languages_url"])
-        except SystemExit:
+        languages = safe_request_json(repo["languages_url"])
+        if not languages:
             continue
 
         for name, size in languages.items():
             totals[name] = totals.get(name, 0) + int(size)
 
     return sorted(totals.items(), key=lambda item: item[1], reverse=True)[:8]
+
+
+def get_search_count(query):
+    url = "https://api.github.com/search/issues?q=" + quote(query, safe=":")
+    data = safe_request_json(url)
+    return int(data.get("total_count", 0)) if data else 0
+
+
+def get_total_prs_from_search():
+    # This matches GitHub search like: type:pr author:SenalAbeysekara
+    return get_search_count(f"type:pr author:{USER}")
+
+
+def get_total_issues_from_search():
+    # Real issues only, not PRs
+    return get_search_count(f"type:issue author:{USER}")
+
+
+def get_repo_branches(repo):
+    branches = []
+    page = 1
+
+    while True:
+        url = (
+            f"https://api.github.com/repos/{repo['full_name']}/branches"
+            f"?per_page=100&page={page}"
+        )
+
+        batch = safe_request_json(url)
+
+        if not batch:
+            break
+
+        branches.extend(batch)
+
+        if len(batch) < 100:
+            break
+
+        page += 1
+
+    return branches
+
+
+def get_total_commits_from_repos(repos):
+    """
+    Counts actual commits authored by USER across accessible public/private repos.
+    It checks all branches and deduplicates commits by SHA.
+    This is more accurate than GitHub contribution-only commit count.
+    """
+    seen_commits = set()
+
+    for repo in repos:
+        full_name = repo.get("full_name")
+        if not full_name:
+            continue
+
+        print(f"Checking commits in {full_name}")
+
+        branches = get_repo_branches(repo)
+
+        if not branches and repo.get("default_branch"):
+            branches = [{"name": repo["default_branch"]}]
+
+        for branch in branches:
+            branch_name = branch.get("name")
+            if not branch_name:
+                continue
+
+            page = 1
+
+            while True:
+                url = (
+                    f"https://api.github.com/repos/{full_name}/commits"
+                    f"?sha={quote(branch_name, safe='')}"
+                    f"&author={quote(USER, safe='')}"
+                    f"&per_page=100&page={page}"
+                )
+
+                commits = safe_request_json(url)
+
+                if not commits:
+                    break
+
+                for commit in commits:
+                    sha = commit.get("sha")
+                    if sha:
+                        seen_commits.add(sha)
+
+                if len(commits) < 100:
+                    break
+
+                page += 1
+
+    return len(seen_commits)
 
 
 def get_contributions():
@@ -206,6 +312,7 @@ def get_contributions():
         collection = data["user"]["contributionsCollection"]
         calendar = collection["contributionCalendar"]
 
+        # Keep these as fallback/profile contribution numbers.
         totals["commits"] += collection["totalCommitContributions"]
         totals["issues"] += collection["totalIssueContributions"]
         totals["prs"] += collection["totalPullRequestContributions"]
@@ -219,11 +326,16 @@ def get_contributions():
     return user, totals, day_counts
 
 
+def local_today():
+    tz = timezone(timedelta(hours=TIMEZONE_OFFSET))
+    return datetime.now(tz).date()
+
+
 def compute_streak(day_counts):
     if not day_counts:
         return 0, None, 0, None, None
 
-    today = date.today()
+    today = local_today()
     first_day = min(date.fromisoformat(day) for day in day_counts)
     counts = {date.fromisoformat(day): count for day, count in day_counts.items()}
 
@@ -284,13 +396,13 @@ def svg_text(x, y, text, size=14, fill="#e6edf3", weight="400", anchor="start"):
 
 
 def grade_for(score):
-    if score >= 160:
-        return "A+", 0.82
-    if score >= 100:
-        return "A", 0.72
+    if score >= 350:
+        return "A+", 0.86
+    if score >= 220:
+        return "A", 0.76
+    if score >= 120:
+        return "B+", 0.64
     if score >= 60:
-        return "B+", 0.62
-    if score >= 30:
         return "B", 0.52
 
     return "C", 0.42
@@ -344,11 +456,12 @@ def build_svg(user, totals, repos, languages, day_counts, streak):
 """
     )
 
+    # Top-left statistics card
     svg.append('<rect x="16" y="20" width="392" height="155" rx="4" fill="#071126" stroke="#c9d1d9"/>')
     svg.append(svg_text(36, 48, "My GitHub Statistics", 15, "#00aaff", "700"))
 
     stats = [
-        ("☆", "Total Stars:", stars),
+        ("★", "Total Stars:", stars),
         ("↻", "Total Commits:", totals["commits"]),
         ("⑂", "Total PRs:", totals["prs"]),
         ("ⓘ", "Total Issues:", totals["issues"]),
@@ -360,7 +473,7 @@ def build_svg(user, totals, repos, languages, day_counts, streak):
     for icon, label, value in stats:
         svg.append(svg_text(36, y, icon, 14, "#00ffd0", "700"))
         svg.append(svg_text(56, y, label, 12, "#ffffff", "700"))
-        svg.append(svg_text(156, y, value, 12, "#ffffff", "700"))
+        svg.append(svg_text(172, y, value, 12, "#ffffff", "700"))
         y += 20
 
     svg.append('<circle cx="325" cy="107" r="32" stroke="#0e4670" stroke-width="5"/>')
@@ -371,6 +484,7 @@ def build_svg(user, totals, repos, languages, day_counts, streak):
     )
     svg.append(svg_text(325, 113, grade, 22, "#ffffff", "800", "middle"))
 
+    # Bottom-left streak card
     svg.append('<rect x="16" y="242" width="392" height="166" rx="4" fill="#161616"/>')
     svg.append('<line x1="145" y1="264" x2="145" y2="388" stroke="#c9d1d9"/>')
     svg.append('<line x1="278" y1="264" x2="278" y2="388" stroke="#c9d1d9"/>')
@@ -394,6 +508,7 @@ def build_svg(user, totals, repos, languages, day_counts, streak):
 
     svg.append(svg_text(344, 361, longest_label, 8, "#8b949e", "400", "middle"))
 
+    # Right language card
     svg.append('<rect x="468" y="120" width="330" height="180" rx="4" fill="#071126" stroke="#c9d1d9"/>')
     svg.append(svg_text(492, 154, "My Programming Languages", 18, "#00aaff", "700"))
 
@@ -433,10 +548,23 @@ def build_svg(user, totals, repos, languages, day_counts, streak):
 
 
 if __name__ == "__main__":
+    print(f"Generating analytics for {USER}")
+
     user, totals, day_counts = get_contributions()
     repos = get_repos()
+
+    print(f"Found {len(repos)} accessible repositories")
+
+    # Replace strict GitHub profile contribution counts with actual searchable/activity counts.
+    totals["prs"] = get_total_prs_from_search()
+    totals["issues"] = get_total_issues_from_search()
+    totals["commits"] = get_total_commits_from_repos(repos)
+
     languages = get_languages(repos)
     streak = compute_streak(day_counts)
+
+    print("Final stats:")
+    print(json.dumps(totals, indent=2))
 
     svg = build_svg(user, totals, repos, languages, day_counts, streak)
 
