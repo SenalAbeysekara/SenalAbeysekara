@@ -543,6 +543,7 @@ def build_svg(user, totals, repos, languages, day_counts, streak):
 """
     )
 
+    # Top-left statistics card
     svg.append('<rect x="16" y="20" width="392" height="155" rx="4" fill="#071126" stroke="#c9d1d9"/>')
     svg.append(svg_text(36, 48, "My GitHub Statistics", 15, "#00aaff", "700"))
 
@@ -570,20 +571,25 @@ def build_svg(user, totals, repos, languages, day_counts, streak):
     )
     svg.append(svg_text(325, 113, grade, 22, "#ffffff", "800", "middle"))
 
+    # Bottom-left streak card
     svg.append('<rect x="16" y="242" width="392" height="166" rx="4" fill="#161616"/>')
     svg.append('<line x1="145" y1="264" x2="145" y2="388" stroke="#c9d1d9"/>')
     svg.append('<line x1="278" y1="264" x2="278" y2="388" stroke="#c9d1d9"/>')
 
-    svg.append(svg_text(82, 308, totals["contribs"], 24, "#ffffff", "800", "middle"))
+    contribution_font_size = 24 if len(str(totals["contribs"])) <= 3 else 21
+    current_font_size = 24 if len(str(current)) <= 2 else 20
+    longest_font_size = 24 if len(str(longest)) <= 2 else 20
+
+    svg.append(svg_text(82, 306, totals["contribs"], contribution_font_size, "#ffffff", "800", "middle"))
     svg.append(svg_text(82, 338, "Total Contributions", 11, "#ffffff", "600", "middle"))
     svg.append(svg_text(82, 361, contribution_range, 9, "#8b949e", "400", "middle"))
 
-    svg.append('<circle cx="212" cy="300" r="33" stroke="#ff8c00" stroke-width="4"/>')
-    svg.append(svg_text(212, 307, current, 24, "#ffffff", "800", "middle"))
-    svg.append(svg_text(212, 339, "Current Streak", 11, "#ff9800", "700", "middle"))
-    svg.append(svg_text(212, 363, fmt_date(current_start), 9, "#8b949e", "400", "middle"))
+    svg.append('<circle cx="212" cy="292" r="28" stroke="#ff8c00" stroke-width="4"/>')
+    svg.append(svg_text(212, 299, current, current_font_size, "#ffffff", "800", "middle"))
+    svg.append(svg_text(212, 345, "Current Streak", 11, "#ff9800", "700", "middle"))
+    svg.append(svg_text(212, 368, fmt_date(current_start), 9, "#8b949e", "400", "middle"))
 
-    svg.append(svg_text(344, 308, longest, 24, "#ffffff", "800", "middle"))
+    svg.append(svg_text(344, 306, longest, longest_font_size, "#ffffff", "800", "middle"))
     svg.append(svg_text(344, 338, "Longest Streak", 11, "#ffffff", "600", "middle"))
 
     if longest_start and longest_end:
@@ -593,6 +599,7 @@ def build_svg(user, totals, repos, languages, day_counts, streak):
 
     svg.append(svg_text(344, 361, longest_label, 8, "#8b949e", "400", "middle"))
 
+    # Right language card
     svg.append('<rect x="468" y="120" width="330" height="180" rx="4" fill="#071126" stroke="#c9d1d9"/>')
     svg.append(svg_text(492, 154, "My Programming Languages", 18, "#00aaff", "700"))
 
