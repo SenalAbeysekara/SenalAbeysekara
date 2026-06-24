@@ -79,23 +79,6 @@
 <h3 align="center">Analytics 📊</h3>
 
 <p align="center">
-  <!--- stats (start) -->
-<table align="center">
-<tr border="none">
-<td width="50%" align="center">
-<img align="center" src="https://awesome-github-stats.azurewebsites.net/user-stats/SenalAbeysekara?theme=tokyonight" />
-<br></br>
-</td>
-<td width="50%" align="center">
-<img align="center" src="https://github-readme-stats.anuraghazra1.vercel.app/api/top-langs/?username=SenalAbeysekara&theme=dark&hide_border=false&no-bg=true&no-frame=true&langs_count=10"/>
-</td>
-</tr>
-</table>
-<table align="center">
-  <tr>
-    <td width="50%" align="center">
-      <img src="https://github-readme-streak-stats.herokuapp.com/?user=SenalAbeysekara&theme=dark&hide_border=false" alt="Senal Abeysekara GitHub Streak"/>
-    </td>
-  </tr>
-</table>
+  <img src="./github-analytics.svg" alt="SenalAbeysekara GitHub Analytics" width="860"/>
+</p>
 
