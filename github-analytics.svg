@@ -10,7 +10,7 @@
 <text x="172" y="76" fill="#ffffff" font-size="12" font-weight="700" text-anchor="start" font-family="Inter, Segoe UI, Arial, sans-serif">2</text>
 <text x="36" y="96" fill="#00ffd0" font-size="14" font-weight="700" text-anchor="start" font-family="Inter, Segoe UI, Arial, sans-serif">↻</text>
 <text x="56" y="96" fill="#ffffff" font-size="12" font-weight="700" text-anchor="start" font-family="Inter, Segoe UI, Arial, sans-serif">Total Commits:</text>
-<text x="172" y="96" fill="#ffffff" font-size="12" font-weight="700" text-anchor="start" font-family="Inter, Segoe UI, Arial, sans-serif">288</text>
+<text x="172" y="96" fill="#ffffff" font-size="12" font-weight="700" text-anchor="start" font-family="Inter, Segoe UI, Arial, sans-serif">289</text>
 <text x="36" y="116" fill="#00ffd0" font-size="14" font-weight="700" text-anchor="start" font-family="Inter, Segoe UI, Arial, sans-serif">⑂</text>
 <text x="56" y="116" fill="#ffffff" font-size="12" font-weight="700" text-anchor="start" font-family="Inter, Segoe UI, Arial, sans-serif">Total PRs:</text>
 <text x="172" y="116" fill="#ffffff" font-size="12" font-weight="700" text-anchor="start" font-family="Inter, Segoe UI, Arial, sans-serif">32</text>
@@ -26,7 +26,7 @@
 <rect x="16" y="242" width="392" height="166" rx="4" fill="#161616"/>
 <line x1="145" y1="264" x2="145" y2="388" stroke="#c9d1d9"/>
 <line x1="278" y1="264" x2="278" y2="388" stroke="#c9d1d9"/>
-<text x="82" y="306" fill="#ffffff" font-size="24" font-weight="800" text-anchor="middle" font-family="Inter, Segoe UI, Arial, sans-serif">306</text>
+<text x="82" y="306" fill="#ffffff" font-size="24" font-weight="800" text-anchor="middle" font-family="Inter, Segoe UI, Arial, sans-serif">307</text>
 <text x="82" y="338" fill="#ffffff" font-size="11" font-weight="600" text-anchor="middle" font-family="Inter, Segoe UI, Arial, sans-serif">Total Contributions</text>
 <text x="82" y="361" fill="#8b949e" font-size="9" font-weight="400" text-anchor="middle" font-family="Inter, Segoe UI, Arial, sans-serif">2024 - Present</text>
 <circle cx="212" cy="292" r="28" stroke="#ff8c00" stroke-width="4"/>
