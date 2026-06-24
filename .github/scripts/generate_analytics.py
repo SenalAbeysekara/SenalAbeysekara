@@ -206,7 +206,7 @@ def get_total_commits_from_repos(repos):
     Important:
     - Checks all branches, including dev branches.
     - Deduplicates commits by SHA.
-    - Hides private repo names in workflow logs.
+    - Shows private repo names in workflow logs temporarily for debugging.
     """
     seen_commits = set()
 
@@ -222,11 +222,11 @@ def get_total_commits_from_repos(repos):
         is_private = repo.get("private", False)
 
         if is_private:
-    total_private_repos_checked += 1
-    repo_label = full_name
-else:
-    total_public_repos_checked += 1
-    repo_label = full_name
+            total_private_repos_checked += 1
+            repo_label = full_name
+        else:
+            total_public_repos_checked += 1
+            repo_label = full_name
 
         branches = get_repo_branches(repo, repo_label)
 
@@ -283,7 +283,6 @@ else:
     print(f"Unique commits found: {len(seen_commits)}")
 
     return len(seen_commits)
-
 
 def get_contributions():
     years_query = """
