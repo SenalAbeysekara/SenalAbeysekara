@@ -79,6 +79,6 @@
 <h3 align="center">Analytics 📊</h3>
 
 <p align="center">
-  <img src="./github-analytics.svg" alt="SenalAbeysekara GitHub Analytics" width="860"/>
+  <img src="./github-analytics.svg?v=2" alt="GitHub Analytics" width="860" />
 </p>
 
