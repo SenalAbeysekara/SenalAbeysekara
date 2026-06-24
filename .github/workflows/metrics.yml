@@ -1,4 +1,4 @@
-name: GitHub Metrics
+name: GitHub Analytics Cards
 
 on:
   schedule:
@@ -9,26 +9,30 @@ on:
       - main
       - master
 
+permissions:
+  contents: write
+
 jobs:
-  github-metrics:
+  build:
     runs-on: ubuntu-latest
-    permissions:
-      contents: write
 
     steps:
-      - uses: lowlighter/metrics@latest
-        with:
-          filename: github-metrics.svg
-          token: ${{ secrets.METRICS_TOKEN }}
-          user: SenalAbeysekara
-          template: classic
-          config_timezone: Asia/Colombo
+      - uses: actions/checkout@v4
 
-          # Keep only simple accurate data
-          base: header, activity, metadata
+      - name: Generate analytics SVG
+        env:
+          GH_TOKEN: ${{ secrets.METRICS_TOKEN }}
+          GITHUB_USERNAME: SenalAbeysekara
+        run: python .github/scripts/generate_analytics.py
 
-          # Languages card
-          plugin_languages: yes
-          plugin_languages_limit: 8
-          plugin_languages_details: percentage
-          plugin_languages_sections: most-used
+      - name: Commit analytics SVG
+        run: |
+          if [[ -n $(git status --porcelain github-analytics.svg) ]]; then
+            git config user.name "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git add github-analytics.svg
+            git commit -m "Update GitHub analytics"
+            git push
+          else
+            echo "No changes"
+          fi
