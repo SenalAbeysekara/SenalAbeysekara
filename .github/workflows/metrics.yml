@@ -2,7 +2,7 @@ name: GitHub Analytics Cards
 
 on:
   schedule:
-    - cron: "0 0 * * *"
+    - cron: "17 */6 * * *"
   workflow_dispatch:
   push:
     branches:
