@@ -76,7 +76,7 @@
   <a href="https://tailwindcss.com/" target="_blank" rel="noreferrer"> 
    <img src="https://github.com/Scar1109/skill-icons/blob/Scar1109/icons/TailwindCSS-Light.svg" alt="tailwind" width="50" height="50"/> </a> </p>
 
-<h3 align="center">Analytics 📊</h3>
+<h3 align="center"> Analytics 📊 </h3>
 
 <p align="center">
   <img src="./github-analytics.svg?v=2" alt="GitHub Analytics" width="860" />
