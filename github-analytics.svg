@@ -47,7 +47,7 @@
 <rect x="770.5" y="174" width="3.0" height="7" fill="#3572A5"/>
 <rect x="773.5" y="174" width="2.5" height="7" fill="#e34c26"/>
 <circle cx="496" cy="201" r="5" fill="#f1e05a"/>
-<text x="507" y="205" fill="#ffffff" font-size="10" font-weight="700" text-anchor="start" font-family="Inter, Segoe UI, Arial, sans-serif">JavaScript (31.47%)</text>
+<text x="507" y="205" fill="#ffffff" font-size="10" font-weight="700" text-anchor="start" font-family="Inter, Segoe UI, Arial, sans-serif">JavaScript (31.46%)</text>
 <circle cx="638" cy="201" r="5" fill="#f7523f"/>
 <text x="649" y="205" fill="#ffffff" font-size="10" font-weight="700" text-anchor="start" font-family="Inter, Segoe UI, Arial, sans-serif">Blade (24.64%)</text>
 <circle cx="496" cy="225" r="5" fill="#4F5D95"/>
