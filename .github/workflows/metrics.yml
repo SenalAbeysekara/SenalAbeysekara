@@ -15,7 +15,10 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          ref: main
 
       - name: Generate analytics SVG
         env:
@@ -25,13 +28,9 @@ jobs:
 
       - name: Commit analytics SVG
         run: |
-          if [[ -n $(git status --porcelain github-analytics.svg) ]]; then
-            git config user.name "Senal Abeysekara"
-            git config user.email "YOUR_VERIFIED_GITHUB_EMAIL"
+          git config user.name "Senal Abeysekara"
+          git config user.email "senaldushyantha@gmail.com"
 
-            git add github-analytics.svg
-            git commit -m "Update GitHub analytics"
-            git push
-          else
-            echo "No analytics changes"
-          fi
+          git add github-analytics.svg
+          git commit --allow-empty -m "Update GitHub analytics"
+          git push
