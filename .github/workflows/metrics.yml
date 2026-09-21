@@ -2,8 +2,7 @@ name: GitHub Analytics Cards
 
 on:
   schedule:
-    - cron: "17 8 * * *"
-      timezone: "Asia/Colombo"
+    - cron: "47 2 * * *"   # 08:17 AM Sri Lanka time (UTC+5:30)
 
   workflow_dispatch:
 
@@ -20,17 +19,33 @@ jobs:
         with:
           ref: main
 
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.x"
+
       - name: Generate analytics SVG
         env:
           GH_TOKEN: ${{ secrets.METRICS_TOKEN }}
           GITHUB_USERNAME: SenalAbeysekara
         run: python .github/scripts/generate_analytics.py
 
-      - name: Commit analytics SVG
+      - name: Check for SVG changes
+        id: changes
         run: |
-          git config user.name "Senal Abeysekara"
-          git config user.email "senaldushyantha@gmail.com"
-
           git add github-analytics.svg
-          git commit --allow-empty -m "Update GitHub analytics"
+
+          if git diff --cached --quiet; then
+            echo "changed=false" >> $GITHUB_OUTPUT
+          else
+            echo "changed=true" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Commit analytics SVG
+        if: steps.changes.outputs.changed == 'true'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          git commit -m "Update GitHub analytics"
           git push
