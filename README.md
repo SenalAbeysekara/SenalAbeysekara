@@ -13,7 +13,7 @@
   
 - 🌱 I am a passionate **Full Stack Developer**.
 
-- 🧑‍🎓 Currently pursuing a **BSc in Computer Science** (Expected Graduation: December 2026).
+- 🧑‍🎓 Graduated with a **BSc in Computer Science** with First Class Honours.
 
 - 🚀 Guiding Principle: *"Code is more than syntax; it’s problem solving, creativity, and impact."*
 
