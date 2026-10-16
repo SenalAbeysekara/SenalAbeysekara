@@ -38,28 +38,28 @@
 <text x="344" y="361" fill="#8b949e" font-size="8" font-weight="400" text-anchor="middle" font-family="Inter, Segoe UI, Arial, sans-serif">Sep 11, 2026 - Sep 25, 2026</text>
 <rect x="468" y="120" width="330" height="180" rx="4" fill="#071126" stroke="#c9d1d9"/>
 <text x="492" y="154" fill="#00aaff" font-size="18" font-weight="700" text-anchor="start" font-family="Inter, Segoe UI, Arial, sans-serif">My Programming Languages</text>
-<rect x="492.0" y="174" width="94.6" height="7" fill="#f1e05a"/>
-<rect x="586.6" y="174" width="73.7" height="7" fill="#4F5D95"/>
-<rect x="660.3" y="174" width="62.5" height="7" fill="#f7523f"/>
-<rect x="722.7" y="174" width="39.7" height="7" fill="#3178c6"/>
-<rect x="762.4" y="174" width="5.1" height="7" fill="#663399"/>
-<rect x="767.4" y="174" width="4.8" height="7" fill="#b07219"/>
+<rect x="492.0" y="174" width="93.2" height="7" fill="#f1e05a"/>
+<rect x="585.2" y="174" width="75.8" height="7" fill="#4F5D95"/>
+<rect x="661.0" y="174" width="62.5" height="7" fill="#f7523f"/>
+<rect x="723.5" y="174" width="39.1" height="7" fill="#3178c6"/>
+<rect x="762.6" y="174" width="5.0" height="7" fill="#663399"/>
+<rect x="767.6" y="174" width="4.8" height="7" fill="#b07219"/>
 <rect x="772.3" y="174" width="2.2" height="7" fill="#3572A5"/>
 <rect x="774.5" y="174" width="2.0" height="7" fill="#e34c26"/>
 <circle cx="496" cy="201" r="5" fill="#f1e05a"/>
-<text x="507" y="205" fill="#ffffff" font-size="10" font-weight="700" text-anchor="start" font-family="Inter, Segoe UI, Arial, sans-serif">JavaScript (33.31%)</text>
+<text x="507" y="205" fill="#ffffff" font-size="10" font-weight="700" text-anchor="start" font-family="Inter, Segoe UI, Arial, sans-serif">JavaScript (32.81%)</text>
 <circle cx="638" cy="201" r="5" fill="#4F5D95"/>
-<text x="649" y="205" fill="#ffffff" font-size="10" font-weight="700" text-anchor="start" font-family="Inter, Segoe UI, Arial, sans-serif">PHP (25.94%)</text>
+<text x="649" y="205" fill="#ffffff" font-size="10" font-weight="700" text-anchor="start" font-family="Inter, Segoe UI, Arial, sans-serif">PHP (26.69%)</text>
 <circle cx="496" cy="225" r="5" fill="#f7523f"/>
-<text x="507" y="229" fill="#ffffff" font-size="10" font-weight="700" text-anchor="start" font-family="Inter, Segoe UI, Arial, sans-serif">Blade (21.99%)</text>
+<text x="507" y="229" fill="#ffffff" font-size="10" font-weight="700" text-anchor="start" font-family="Inter, Segoe UI, Arial, sans-serif">Blade (22.01%)</text>
 <circle cx="638" cy="225" r="5" fill="#3178c6"/>
-<text x="649" y="229" fill="#ffffff" font-size="10" font-weight="700" text-anchor="start" font-family="Inter, Segoe UI, Arial, sans-serif">TypeScript (13.97%)</text>
+<text x="649" y="229" fill="#ffffff" font-size="10" font-weight="700" text-anchor="start" font-family="Inter, Segoe UI, Arial, sans-serif">TypeScript (13.76%)</text>
 <circle cx="496" cy="249" r="5" fill="#663399"/>
-<text x="507" y="253" fill="#ffffff" font-size="10" font-weight="700" text-anchor="start" font-family="Inter, Segoe UI, Arial, sans-serif">CSS (1.78%)</text>
+<text x="507" y="253" fill="#ffffff" font-size="10" font-weight="700" text-anchor="start" font-family="Inter, Segoe UI, Arial, sans-serif">CSS (1.75%)</text>
 <circle cx="638" cy="249" r="5" fill="#b07219"/>
-<text x="649" y="253" fill="#ffffff" font-size="10" font-weight="700" text-anchor="start" font-family="Inter, Segoe UI, Arial, sans-serif">Java (1.70%)</text>
+<text x="649" y="253" fill="#ffffff" font-size="10" font-weight="700" text-anchor="start" font-family="Inter, Segoe UI, Arial, sans-serif">Java (1.68%)</text>
 <circle cx="496" cy="273" r="5" fill="#3572A5"/>
-<text x="507" y="277" fill="#ffffff" font-size="10" font-weight="700" text-anchor="start" font-family="Inter, Segoe UI, Arial, sans-serif">Python (0.79%)</text>
+<text x="507" y="277" fill="#ffffff" font-size="10" font-weight="700" text-anchor="start" font-family="Inter, Segoe UI, Arial, sans-serif">Python (0.78%)</text>
 <circle cx="638" cy="273" r="5" fill="#e34c26"/>
-<text x="649" y="277" fill="#ffffff" font-size="10" font-weight="700" text-anchor="start" font-family="Inter, Segoe UI, Arial, sans-serif">HTML (0.52%)</text>
+<text x="649" y="277" fill="#ffffff" font-size="10" font-weight="700" text-anchor="start" font-family="Inter, Segoe UI, Arial, sans-serif">HTML (0.51%)</text>
 </svg>
