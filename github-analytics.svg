@@ -40,7 +40,7 @@
 <text x="492" y="154" fill="#00aaff" font-size="18" font-weight="700" text-anchor="start" font-family="Inter, Segoe UI, Arial, sans-serif">My Programming Languages</text>
 <rect x="492.0" y="174" width="93.2" height="7" fill="#f1e05a"/>
 <rect x="585.2" y="174" width="75.8" height="7" fill="#4F5D95"/>
-<rect x="661.0" y="174" width="62.5" height="7" fill="#f7523f"/>
+<rect x="661.0" y="174" width="62.6" height="7" fill="#f7523f"/>
 <rect x="723.5" y="174" width="39.1" height="7" fill="#3178c6"/>
 <rect x="762.6" y="174" width="5.0" height="7" fill="#663399"/>
 <rect x="767.6" y="174" width="4.8" height="7" fill="#b07219"/>
@@ -51,7 +51,7 @@
 <circle cx="638" cy="201" r="5" fill="#4F5D95"/>
 <text x="649" y="205" fill="#ffffff" font-size="10" font-weight="700" text-anchor="start" font-family="Inter, Segoe UI, Arial, sans-serif">PHP (26.69%)</text>
 <circle cx="496" cy="225" r="5" fill="#f7523f"/>
-<text x="507" y="229" fill="#ffffff" font-size="10" font-weight="700" text-anchor="start" font-family="Inter, Segoe UI, Arial, sans-serif">Blade (22.01%)</text>
+<text x="507" y="229" fill="#ffffff" font-size="10" font-weight="700" text-anchor="start" font-family="Inter, Segoe UI, Arial, sans-serif">Blade (22.03%)</text>
 <circle cx="638" cy="225" r="5" fill="#3178c6"/>
 <text x="649" y="229" fill="#ffffff" font-size="10" font-weight="700" text-anchor="start" font-family="Inter, Segoe UI, Arial, sans-serif">TypeScript (13.76%)</text>
 <circle cx="496" cy="249" r="5" fill="#663399"/>
