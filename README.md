@@ -1,9 +1,9 @@
 <p align="center"><picture align="center"><img align="center" src = "https://github.com/7oSkaaa/7oSkaaa/blob/main/Images/about_me.gif?raw=true" width = 50px></picture></p>
 <h2 align="center">Hi 👋, I'm Senal Abeysekara</h2>
-<h3 align="center">Passionate IT Student | Exploring the Boundless World of Technology</h3>
+<h3 align="center">Exploring the Boundless World of Technology</h3>
 <div align="center">
 <p align="center">
-  <a href="https://github.com/DenverCoder1/readme-typing-svg"><img src="https://readme-typing-svg.herokuapp.com?font=Time+New+Roman&color=cyan&size=25&center=true&vCenter=true&width=600&height=100&lines=>+Welcome+to+My+GitHub+Profile...!,;Self-taught+FullStack+Developer,;Computer+Science+Student,;Active+Learner/Researcher,;Love+to+Learn+New+Stuffs..<3."></a>
+  <a href="https://github.com/DenverCoder1/readme-typing-svg"><img src="https://readme-typing-svg.herokuapp.com?font=Time+New+Roman&color=cyan&size=25&center=true&vCenter=true&width=600&height=100&lines=>+Welcome+to+My+GitHub+Profile...!,;Self-taught+FullStack+Developer,;Computer+Science+Graduate,;Active+Learner/Researcher,;Love+to+Learn+New+Stuffs..<3."></a>
 </p>
 <p align="center"> <img src="https://komarev.com/ghpvc/?username=SenalAbeysekara&label=Profile%20views&color=0e75b6&style=flat" alt="SenalAbeysekara" /> </p>
 <img src="https://github.com/AnderMendoza/AnderMendoza/raw/main/assets/line-neon.gif" width="100%">
